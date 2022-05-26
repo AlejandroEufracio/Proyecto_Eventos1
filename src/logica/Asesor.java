@@ -2,6 +2,6 @@
 package logica;
 
 
-public class Usuario {
+public class Asesor {
     
 }
