@@ -9,5 +9,5 @@ package logica;
  * @author diego
  */
 public class Cuenta {
-    
+    //SI jalo y el chino se la come
 }
