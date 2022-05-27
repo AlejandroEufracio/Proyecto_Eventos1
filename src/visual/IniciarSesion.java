@@ -4,15 +4,9 @@
  */
 package visual;
 
-/**
- *
- * @author diego
- */
-public class IniciarSesion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form IniciarSesion
-     */
+public class IniciarSesion extends javax.swing.JFrame {
+    
     public IniciarSesion() {
         initComponents();
     }

@@ -1,28 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package visual;
 
-import logica.Cuenta;
+import logica.Usuario;
 import basedatos.conexionBD;
 
 public class CrearCuenta extends javax.swing.JFrame {
 
-    Cuenta objCuenta = null;
     conexionBD objBD = null;
+    Usuario objUs = null;
     
-    public CrearCuenta(Cuenta objCuenta) {
-        objCuenta = new Cuenta();
+    public CrearCuenta() {
+        objUs = new Usuario();
         objBD = new conexionBD();
         initComponents();
     }
 
-    
-    public CrearCuenta() {
+    /*public CrearCuenta() {
         initComponents();
-    }
-
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,14 +176,19 @@ public class CrearCuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        objCuenta.setUser(txtfUser.getText());
-        objCuenta.setEmail(txtfEmail.getText());
-        char[] password = pswrfConfirma.getPassword();
-        String pswr = new String(password);
-        objCuenta.setPassword(pswr);
-        
-        objBD.abrirConexion();
-        objBD.cerrarConexion();
+        if(objUs != null){
+            objUs.setUser(txtfUser.getText());
+            objUs.setEmail(txtfEmail.getText());
+            char[] password = pswrfConfirma.getPassword();
+            String pswr = new String(password);
+            objUs.setPassword(pswr);
+
+            objBD.abrirConexion();
+            objBD.insertarUser(objUs);
+            objBD.cerrarConexion();
+        } else {
+            System.out.println("objUs esta nulo");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
