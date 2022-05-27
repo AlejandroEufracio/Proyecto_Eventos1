@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 
 public class conexionBD {
     Connection conexion;
+    PreparedStatement insertarUser;
     
     public conexionBD(){ 
         try{ // lineas de codigo  que pueden generar un error
@@ -20,9 +21,10 @@ public class conexionBD {
     
     public void abrirConexion(){
         try{  // conexion par a la base de datos 
-        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/crudpoe", "root","");
+        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/nutripoe", "root", "");
+        insertarUser = conexion.prepareStatement("INSERT INTO Cuenta values (?, ?, ?)");
         }catch(SQLException ex ){
-            System.out.println("Error al abrir db ");
+            System.out.println("Error al abrir bd");
         }
     }
     
@@ -30,7 +32,7 @@ public class conexionBD {
         try{
             conexion.close();
         }catch(SQLException ex){
-            System.out.println("error al cerrar conexion ");
+            System.out.println("Error al cerrar conexion");
         }
     }
 }
