@@ -1,4 +1,3 @@
-
 package basedatos;
 
 import java.sql.Connection; // paquete para manipular la conexion 
@@ -7,13 +6,18 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import logica.Usuario;
+import logica.Asesor;
 
 public class conexionBD {
 //    Connection conexion;
     
     Connection conexion;
-    PreparedStatement autentificar;
+    PreparedStatement autentificarUsuario;
+    PreparedStatement autentificarAsesor;
     PreparedStatement insertarUser;
+    PreparedStatement insertarAsesor;
+    PreparedStatement contarUsuarios;
+    PreparedStatement contarAsesores;
     
     
     
@@ -27,9 +31,13 @@ public class conexionBD {
     
     public void abrirConexion(){
         try{  // conexion par a la base de datos 
-        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/CRUDPOE", "root","");
+        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/crudpoe", "root","");
         insertarUser = conexion.prepareStatement("INSERT INTO Cuenta values (?,?,?)");
-        autentificar = conexion.prepareStatement("SELECT * FROM cuenta WHERE user =? AND password =?");
+        insertarAsesor = conexion.prepareStatement("INSERT INTO Asesor values (?,?,?)");
+        autentificarUsuario = conexion.prepareStatement("SELECT * FROM cuenta WHERE user =? AND password =?");
+        autentificarAsesor = conexion.prepareStatement("SELECT * FROM asesor WHERE user =? AND password =?");
+        contarUsuarios = conexion.prepareStatement("SELECT COUNT(*) FROM cuenta WHERE user =?");
+        contarAsesores = conexion.prepareStatement("SELECT COUNT(*) FROM asesor WHERE user =?");
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
         }
@@ -43,7 +51,7 @@ public class conexionBD {
         }
     }
     
-    public Usuario autentificar(String usuario, String contraseña){
+    public Usuario autentificarUsuario(String usuario, String contraseña){
         
                 
         ResultSet rs =  null;
@@ -51,9 +59,9 @@ public class conexionBD {
          
         try {
             
-            autentificar.setString(1,usuario);
-            autentificar.setString(2,contraseña);
-            rs = autentificar.executeQuery();
+            autentificarUsuario.setString(1,usuario);
+            autentificarUsuario.setString(2,contraseña);
+            rs = autentificarUsuario.executeQuery();
             
             
             if(rs.next() ) {
@@ -73,16 +81,92 @@ public class conexionBD {
         return objUsuario;
     }
     
-    public void insertarUser(Usuario objUs){
-        try{
-            insertarUser.setString(1, objUs.getUser());
-            insertarUser.setString(2, objUs.getEmail());
-            insertarUser.setString(3, objUs.getPassword());
+     public Asesor autentificarAsesor(String usuario, String contraseña){
+        
+                
+        ResultSet rs =  null;
+        Asesor objAsesor = null;
+         
+        try {
             
-            insertarUser.executeUpdate();
-        }catch( SQLException ex  ){
+            autentificarAsesor.setString(1,usuario);
+            autentificarAsesor.setString(2,contraseña);
+            rs = autentificarAsesor.executeQuery();
+            
+            
+            if(rs.next() ) {
+                System.out.println("Entro");
+                objAsesor = new Asesor();
+                objAsesor.setUser(rs.getString("user"));
+                //objUsuario.setEdad(rs.getInt("edad"));
+                objAsesor.setEmail(rs.getString("email"));
+                
+            }           
+        } catch (SQLException ex) {
+           System.out.println("Error al autentificar en la BD");
+           System.out.println(ex.getMessage());
+            
+        }
+        
+        return objAsesor;
+    }
+    
+    public boolean insertarUser(Usuario objUs){
+        
+        ResultSet rs;
+
+        
+        try{
+            contarUsuarios.setString(1, objUs.getUser());
+            rs = contarUsuarios.executeQuery();
+            if(rs.next()){
+                
+                if(rs.getInt(1)>0){
+                    System.out.println("El usuario ya existe");
+                    return false;
+                }
+                
+                insertarUser.setString(1, objUs.getUser());
+                insertarUser.setString(2, objUs.getEmail());
+                insertarUser.setString(3, objUs.getPassword());
+                insertarUser.executeUpdate();
+
+            }}catch( SQLException ex  ){
             System.out.println("Error al insertar usuario");
             System.out.println(ex.getMessage() );
         }
+        
+        return true;
+        
+    }
+    
+    public boolean insertarAsesor(Asesor objAsesor){
+        
+        ResultSet rs;
+        
+        
+        try{
+            contarAsesores.setString(1, objAsesor.getUser());
+            rs = contarAsesores.executeQuery();
+            
+            if(rs.next()){
+            
+            if(rs.getInt(1)>0){
+                System.out.println("El asesor ya esta registrado");
+                return false; 
+            }
+            
+            insertarAsesor.setString(1, objAsesor.getUser());
+            insertarAsesor.setString(2, objAsesor.getEmail());
+            insertarAsesor.setString(3, objAsesor.getPassword());
+            insertarAsesor.executeUpdate();
+            
+            }}catch( SQLException ex  ){
+            System.out.println("Error al insertar usuario");
+            System.out.println(ex.getMessage() );
+        }
+        
+        return true;
+        
     }
 }
