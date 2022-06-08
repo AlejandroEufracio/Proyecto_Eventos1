@@ -29,13 +29,6 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
         initComponents();
     }
     
-    public VtnCrearCuenta(VtnIniciarAsesor vtnIniciarAsesor){
-        this.vtnIniciarAsesor = vtnIniciarAsesor;
-        objAsesor = new Asesor();
-        objUs = new Usuario();
-        objBD = new conexionBD();
-        initComponents();
-    }
 
     /*public CrearCuenta() {
         initComponents();
@@ -74,6 +67,7 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
         btnCUser = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         pnlBotonesInicio.setBackground(new java.awt.Color(51, 0, 102));
 
@@ -267,6 +261,7 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
         getContentPane().add(pnlRegistroDatos, java.awt.BorderLayout.CENTER);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed

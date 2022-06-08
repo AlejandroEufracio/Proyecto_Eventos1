@@ -19,7 +19,8 @@ public class VtnIniciarUsuario extends javax.swing.JFrame {
      * Creates new form IniciarSesion
      */
     
-    conexionBD bd = null;
+    conexionBD bd = null; 
+    
     Usuario objUsuario = null;
     VtnCrearCuenta vtnCrearCuenta = null;
     VtnIniciarAsesor vtnIniciarAsesor = null;
@@ -61,6 +62,7 @@ public class VtnIniciarUsuario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 255));
         setPreferredSize(new java.awt.Dimension(360, 400));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
         jPanel1.setForeground(new java.awt.Color(0, 0, 255));
@@ -239,6 +241,7 @@ public class VtnIniciarUsuario extends javax.swing.JFrame {
         getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_END);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
@@ -307,9 +310,9 @@ public class VtnIniciarUsuario extends javax.swing.JFrame {
                 if (vtnMenuPrincipal == null) {
                 vtnMenuPrincipal = new VtnMenuPrincipal(this,objUsuario);
                 }
-        
+                
                 vtnMenuPrincipal.setVisible(true);
-        
+                
                 this.setVisible(false);
                 bd.cerrarConexion();
                 

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import logica.Usuario;
 import logica.Asesor;
+import logica.Comida;
 
 public class conexionBD {
 //    Connection conexion;
@@ -18,6 +19,11 @@ public class conexionBD {
     PreparedStatement insertarAsesor;
     PreparedStatement contarUsuarios;
     PreparedStatement contarAsesores;
+    PreparedStatement mostrarTodaComida;
+    PreparedStatement mostrarCategoriaComida;
+    PreparedStatement buscarComida;
+    PreparedStatement agregarComida;
+    
     
     
     
@@ -31,13 +37,19 @@ public class conexionBD {
     
     public void abrirConexion(){
         try{  // conexion par a la base de datos 
+            
         conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/crudpoe", "root","");
-        insertarUser = conexion.prepareStatement("INSERT INTO Cuenta values (?,?,?)");
+        insertarUser = conexion.prepareStatement("INSERT INTO usuario values (?,?,?)");
         insertarAsesor = conexion.prepareStatement("INSERT INTO Asesor values (?,?,?)");
-        autentificarUsuario = conexion.prepareStatement("SELECT * FROM cuenta WHERE user =? AND password =?");
+        autentificarUsuario = conexion.prepareStatement("SELECT * FROM usuario WHERE user =? AND password =?");
         autentificarAsesor = conexion.prepareStatement("SELECT * FROM asesor WHERE user =? AND password =?");
-        contarUsuarios = conexion.prepareStatement("SELECT COUNT(*) FROM cuenta WHERE user =?");
+        contarUsuarios = conexion.prepareStatement("SELECT COUNT(*) FROM usuario WHERE user =?");
         contarAsesores = conexion.prepareStatement("SELECT COUNT(*) FROM asesor WHERE user =?");
+        mostrarTodaComida = conexion.prepareStatement("SELECT * FROM comida");
+        mostrarCategoriaComida = conexion.prepareStatement("SELECT * FROM comida WHERE categoria =?");
+        buscarComida = conexion.prepareStatement("SELECT * FROM comida WHERE nombre =?");
+        agregarComida = conexion.prepareStatement("INSERT INTO comida values (?,?,?,?,?,?,?)");
+        
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
         }
@@ -169,4 +181,85 @@ public class conexionBD {
         return true;
         
     }
+    
+    public ResultSet mostrarTodasComidas(){
+        ResultSet rs;
+        
+        try {
+            
+            rs = mostrarTodaComida.executeQuery();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener todas las comidas");
+            System.out.println(ex.getMessage() );
+            return null;
+        }
+        
+        return rs;
+    }
+    
+    public ResultSet mostrarCategoriaComidas(String categorias){
+        ResultSet rs;
+        try {
+            
+            mostrarCategoriaComida.setString(1, categorias);
+            rs = mostrarCategoriaComida.executeQuery();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener todas las comidas donde categoria: " + categorias);
+            System.out.println(ex.getMessage());
+            return null;
+        }
+        
+        return rs;
+    }
+    
+        public ResultSet mostrarComidaBuscada(String nombre){
+        ResultSet rs;
+        
+        try {
+            buscarComida.setString(1, nombre);
+            rs = buscarComida.executeQuery();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener buscar la comidas");
+            System.out.println(ex.getMessage() );
+            return null;
+        }
+        
+        return rs;
+    }
+    
+        public boolean agregarComida(Comida objComida){
+            
+            ResultSet rs;
+
+        
+        try{
+            
+            agregarComida.setString(1, objComida.getNombre());
+            agregarComida.setString(2, objComida.getCategoria());
+            agregarComida.setDouble(3, objComida.getCalorias());
+            agregarComida.setDouble(4, objComida.getProteina());
+            agregarComida.setDouble(5, objComida.getCarbohidratos());
+            agregarComida.setDouble(6, objComida.getGrasas());
+            agregarComida.setDouble(7, objComida.getAzucares());
+            
+            
+            agregarComida.executeUpdate();
+            
+            return true;
+            
+        }catch( SQLException ex  ){
+                
+            System.out.println("Error al insertar comida");
+            System.out.println(ex.getMessage() );
+            
+            }
+            
+        
+        return false;  
+        
+        }
+    
 }

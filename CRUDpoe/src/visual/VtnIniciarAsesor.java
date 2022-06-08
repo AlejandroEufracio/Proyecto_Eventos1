@@ -55,6 +55,7 @@ public class VtnIniciarAsesor extends javax.swing.JFrame {
         btnIngresarAsesor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(51, 0, 102));
         jPanel1.setForeground(new java.awt.Color(0, 0, 255));
@@ -224,6 +225,7 @@ public class VtnIniciarAsesor extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
