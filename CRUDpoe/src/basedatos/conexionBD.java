@@ -23,6 +23,7 @@ public class conexionBD {
     PreparedStatement mostrarCategoriaComida;
     PreparedStatement buscarComida;
     PreparedStatement agregarComida;
+    PreparedStatement borrarComida;
     
     
     
@@ -49,6 +50,7 @@ public class conexionBD {
         mostrarCategoriaComida = conexion.prepareStatement("SELECT * FROM comida WHERE categoria =?");
         buscarComida = conexion.prepareStatement("SELECT * FROM comida WHERE nombre =?");
         agregarComida = conexion.prepareStatement("INSERT INTO comida values (?,?,?,?,?,?,?)");
+        borrarComida = conexion.prepareStatement("DELETE FROM comida WHERE nombre =?");
         
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
@@ -261,5 +263,22 @@ public class conexionBD {
         return false;  
         
         }
+        
+        public void borrarComida(String nombre){
+        ResultSet rs;
+        
+        try {
+            
+            borrarComida.setString(1, nombre);
+            borrarComida.execute();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al borrar todas las comidas donde nombre: " + nombre);
+            System.out.println(ex.getMessage());
+            
+        }
+        
+       
+    }    
     
 }

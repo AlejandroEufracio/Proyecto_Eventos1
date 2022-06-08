@@ -270,6 +270,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         listCategorias = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         btnAgregarComida = new javax.swing.JButton();
+        btnEliminarComida = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -347,6 +348,12 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarComida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarComidaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -363,7 +370,9 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                         .addComponent(txtBuscarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(btnBuscarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107)
+                        .addGap(56, 56, 56)
+                        .addComponent(btnEliminarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAgregarComida)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
@@ -377,10 +386,12 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAgregarComida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtBuscarComida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnBuscarComida)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnAgregarComida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtBuscarComida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBuscarComida)))
+                            .addComponent(btnEliminarComida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
@@ -470,6 +481,25 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAgregarComidaActionPerformed
 
+    private void btnEliminarComidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarComidaActionPerformed
+        // TODO add your handling code here:
+        
+        int seleccionar = tableComida.getSelectedRow();
+        
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            bd.abrirConexion();
+            bd.borrarComida((String)tableComida.getValueAt(seleccionar, 0));
+            bd.cerrarConexion();
+            JOptionPane.showMessageDialog(this, "Se ha elimidado " + tableComida.getValueAt(seleccionar, 0));
+            System.out.println("La columa seleccionada es: " + seleccionar + " y su nombre es " + tableComida.getValueAt(seleccionar, 0));
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnEliminarComidaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -508,6 +538,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarComida;
     private javax.swing.JToggleButton btnBuscarComida;
+    private javax.swing.JButton btnEliminarComida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
