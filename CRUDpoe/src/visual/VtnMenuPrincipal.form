@@ -151,8 +151,8 @@
                                   <Group type="102" attributes="0">
                                       <Component id="txtBuscarComida" min="-2" pref="199" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                      <Component id="btnBuscarComida" min="-2" pref="95" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                                      <Component id="btnBuscarComida" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="107" max="-2" attributes="0"/>
                                       <Component id="btnEliminarComida" min="-2" pref="45" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnAgregarComida" min="-2" max="-2" attributes="0"/>
@@ -175,12 +175,10 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                                               <Component id="btnAgregarComida" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="txtBuscarComida" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="btnBuscarComida" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              </Group>
+                                              <Component id="txtBuscarComida" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="btnEliminarComida" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="btnBuscarComida" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -199,7 +197,9 @@
                     </Component>
                     <Component class="javax.swing.JToggleButton" name="btnBuscarComida">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Buscar"/>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/imagenes/edit.png"/>
+                        </Property>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarComidaActionPerformed"/>
@@ -294,6 +294,11 @@
                       </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="btnEliminarComida">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/imagenes/imagenes/delete.png"/>
+                        </Property>
+                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarComidaActionPerformed"/>
                       </Events>
