@@ -26,7 +26,6 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     VtnIniciarUsuario vtnIniciarUsuario = null;
     VtnIniciarAsesor vtnIniciarAsesor = null;
     VtnAgregarComida objAgregarComida = null;
-    VtnAgregarComidaProgreso objAgregarComidaProgreso = null;
     Usuario objUsuario = null;
     Asesor objAsesor = null;
     Comida objComida = null;
@@ -58,6 +57,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         initComponents();
         cargarLista();
         llenarTablaComida();
+        llenarTablaProgreso();
         listCategorias.requestFocus();
         listCategorias.setSelectedIndex(0);
     }
@@ -77,6 +77,36 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             System.out.println(" " + elementos);
             modelo1.addElement(elementos);
         }
+        
+    }
+    
+    private void llenarTablaProgreso(){
+        
+        
+        m = (DefaultTableModel) tableProgreso.getModel();
+        bd.abrirConexion();
+        ResultSet rs = bd.mostrarProgreso();
+        
+        if(rs==null){
+            JOptionPane.showMessageDialog(this, "Error, valor nulo retornado");
+            return;
+        }
+        
+        try {
+            
+            while(rs.next()){
+                String dia = rs.getString("Dia");
+                Double TotalCalorias = rs.getDouble("TotalCalorias");
+                String filaselemento[] = {dia, TotalCalorias.toString()};
+                m.addRow(filaselemento);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error al llenar la tabla");
+            
+        }
+        
+        bd.cerrarConexion();
         
     }
     
@@ -245,64 +275,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         
         
     }
-    
-    public void llenarTablaDesayuno(String nombreBuscado){
         
-        String nombreColumnas [] = {"Nombre","Categoria","Calorias","Proteina",
-                                    "Carbohidratos","Grasas","Azucares"};
-        
-        DefaultTableModel modeloTabla1 = new DefaultTableModel();
-        
-        modeloTabla1.setColumnIdentifiers(nombreColumnas);
-        
-        tableDes.setModel(modeloTabla1);
-        
-        bd.abrirConexion();
-        ResultSet rs = bd.mostrarComidaBuscada(nombreBuscado);
-        
-        if(rs==null){
-            JOptionPane.showMessageDialog(this, "Error, valor nulo retornado");
-            return;
-        }
-        
-        try {
-            
-            while(rs.next()){
-                String nombre = rs.getString("nombre");
-                String categoriaComida = rs.getString("categoria");
-                Double calorias = rs.getDouble("calorias");
-                Double proteina = rs.getDouble("proteina");
-                Double carbohidratos = rs.getDouble("carbohidratos");
-                Double grasas = rs.getDouble("grasas");
-                Double azucares = rs.getDouble("azucares");
-                
-                Object[] row = new Object[7];
-                
-                row[0] = nombre;
-                row[1] = categoriaComida;
-                row[2] = calorias;
-                row[3] = proteina;
-                row[4] = carbohidratos;
-                row[5] = grasas;
-                row[6] = azucares;
-                
-                
-                modeloTabla1.addRow(row);
-            }
-            
-        } catch (SQLException e) {
-            System.out.println("Error al llenar la tabla");
-            
-        }
-        
-        bd.cerrarConexion();
-        tableDes.setModel(modeloTabla1);
-        
-    }
-   
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -317,6 +290,8 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         tabPrincipal = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tableProgreso = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         txtBuscarComida = new javax.swing.JTextField();
         btnBuscarComida = new javax.swing.JToggleButton();
@@ -344,6 +319,19 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         lblComida = new javax.swing.JLabel();
         lblCena = new javax.swing.JLabel();
         lblSnacks = new javax.swing.JLabel();
+        lblCalTotalDes = new javax.swing.JLabel();
+        lblCalTotalNumDes = new javax.swing.JLabel();
+        btnSumarDes = new javax.swing.JButton();
+        lblCalTotalCom = new javax.swing.JLabel();
+        lblCalTotalCen = new javax.swing.JLabel();
+        lblCalTotalSnacks = new javax.swing.JLabel();
+        lblCalTotalNumCom = new javax.swing.JLabel();
+        lblCalTotalNumCen = new javax.swing.JLabel();
+        lblCalTotalNumSnacks = new javax.swing.JLabel();
+        lblCalTotalDiario = new javax.swing.JLabel();
+        lblCalTotalNumDiario = new javax.swing.JLabel();
+        comboDias = new javax.swing.JComboBox<>();
+        btnGuardarDia = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -357,15 +345,33 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         tabPrincipal.setBackground(new java.awt.Color(51, 0, 102));
         tabPrincipal.setName(""); // NOI18N
 
+        jPanel3.setBackground(new java.awt.Color(51, 0, 102));
+
+        tableProgreso.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Dia de la semana", "Total de calorias"
+            }
+        ));
+        jScrollPane5.setViewportView(tableProgreso);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 944, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(171, 171, 171)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(321, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 589, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(306, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(192, 192, 192))
         );
 
         tabPrincipal.addTab("Home", jPanel3);
@@ -591,6 +597,77 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         lblSnacks.setText("Snacks");
         lblSnacks.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        lblCalTotalDes.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalDes.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalDes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalDes.setText("Total:");
+        lblCalTotalDes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalNumDes.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalNumDes.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalNumDes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalNumDes.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnSumarDes.setText("Sumar Calorias");
+        btnSumarDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSumarDesActionPerformed(evt);
+            }
+        });
+
+        lblCalTotalCom.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalCom.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalCom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalCom.setText("Total:");
+        lblCalTotalCom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalCen.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalCen.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalCen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalCen.setText("Total:");
+        lblCalTotalCen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalSnacks.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalSnacks.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalSnacks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalSnacks.setText("Total:");
+        lblCalTotalSnacks.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalNumCom.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalNumCom.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalNumCom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalNumCom.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalNumCen.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalNumCen.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalNumCen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalNumCen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalNumSnacks.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalNumSnacks.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalNumSnacks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalNumSnacks.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalDiario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalDiario.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalDiario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalDiario.setText("Total diario:");
+        lblCalTotalDiario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        lblCalTotalNumDiario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblCalTotalNumDiario.setForeground(new java.awt.Color(255, 255, 255));
+        lblCalTotalNumDiario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCalTotalNumDiario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        comboDias.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo" }));
+
+        btnGuardarDia.setText("Guardar progreso");
+        btnGuardarDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarDiaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -599,47 +676,109 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(lblSnacks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblComida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(lblDesayuno, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                         .addGap(26, 26, 26)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(lblComida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblSnacks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(lblCena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(339, 339, 339)
+                        .addComponent(lblCalTotalDes)
+                        .addGap(46, 46, 46)
+                        .addComponent(lblCalTotalNumDes))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(btnSumarDes)
+                        .addGap(175, 175, 175)
+                        .addComponent(lblCalTotalDiario)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblCalTotalNumDiario)
+                        .addGap(61, 61, 61)
+                        .addComponent(comboDias, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60)
+                        .addComponent(btnGuardarDia))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(340, 340, 340)
+                        .addComponent(lblCalTotalCom)
+                        .addGap(41, 41, 41)
+                        .addComponent(lblCalTotalNumCom))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(340, 340, 340)
+                        .addComponent(lblCalTotalCen)
+                        .addGap(43, 43, 43)
+                        .addComponent(lblCalTotalNumCen))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(340, 340, 340)
+                        .addComponent(lblCalTotalSnacks)
+                        .addGap(44, 44, 44)
+                        .addComponent(lblCalTotalNumSnacks)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSumarDes)
+                            .addComponent(lblCalTotalDiario, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblCalTotalNumDiario, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGuardarDia))
+                        .addGap(4, 4, 4)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDesayuno)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCalTotalDes, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCalTotalNumDes, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(34, 34, 34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblCalTotalCom, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblCalTotalNumCom, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblCena))
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblSnacks)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(lblComida)))
-                    .addComponent(lblDesayuno))
-                .addContainerGap(57, Short.MAX_VALUE))
+                                    .addComponent(lblCena)))
+                            .addComponent(lblComida))
+                        .addGap(7, 7, 7)
+                        .addComponent(lblCalTotalCen, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCalTotalNumCen, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSnacks))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCalTotalSnacks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCalTotalNumSnacks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        tabPrincipal.addTab("Comidas", jPanel7);
+        tabPrincipal.addTab("Progreso", jPanel7);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -844,6 +983,63 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAgregarProgresoSnacksActionPerformed
 
+    private void btnSumarDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarDesActionPerformed
+        // TODO add your handling code here:
+        String sumaDiaria = "";
+        double acumuladorDiario = 0;
+        String sumaDes = "";
+        double acumuladorDes = 0;
+        int iDes;
+        for (iDes = 0; iDes < tableDes.getRowCount(); iDes++) {
+            sumaDes = String.valueOf(tableDes.getValueAt(iDes, 2).toString());
+            acumuladorDes += Double.parseDouble(sumaDes);
+        }
+        lblCalTotalNumDes.setText("" + acumuladorDes);
+        
+        String sumaCom = "";
+        double acumuladorCom = 0;
+        int iCom;
+        for (iCom = 0; iCom < tableCom.getRowCount(); iCom++) {
+            sumaCom = String.valueOf(tableCom.getValueAt(iCom, 2).toString());
+            acumuladorCom += Double.parseDouble(sumaCom);
+        }
+        lblCalTotalNumCom.setText("" + acumuladorCom);
+        
+        String sumaCen = "";
+        double acumuladorCen = 0;
+        int iCen;
+        for (iCen = 0; iCen < tableCen.getRowCount(); iCen++) {
+            sumaCen = String.valueOf(tableCen.getValueAt(iCen, 2).toString());
+            acumuladorCen += Double.parseDouble(sumaCen);
+        }
+        lblCalTotalNumCen.setText("" + acumuladorCen);
+        
+        String sumaSnacks = "";
+        double acumuladorSnacks = 0;
+        int iSnacks;
+        for (iSnacks = 0; iSnacks < tableSnacks.getRowCount(); iSnacks++) {
+            sumaSnacks = String.valueOf(tableSnacks.getValueAt(iSnacks, 2).toString());
+            acumuladorSnacks += Double.parseDouble(sumaSnacks);
+        }
+        lblCalTotalNumSnacks.setText("" + acumuladorSnacks);
+        
+        acumuladorDiario = Double.parseDouble(lblCalTotalNumDes.getText()) + Double.parseDouble(lblCalTotalNumCom.getText()) + 
+                Double.parseDouble(lblCalTotalNumCen.getText()) + Double.parseDouble(lblCalTotalNumSnacks.getText());
+        lblCalTotalNumDiario.setText("" + acumuladorDiario);
+    }//GEN-LAST:event_btnSumarDesActionPerformed
+
+    private void btnGuardarDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarDiaActionPerformed
+        // TODO add your handling code here:
+        if (lblCalTotalNumDiario.getText() == null){
+            JOptionPane.showMessageDialog(null, "Calcula el total de calorias primero");
+        } else {
+            bd.abrirConexion();
+            bd.agregarProgresoDiario((String)comboDias.getSelectedItem(), Double.parseDouble(lblCalTotalNumDiario.getText()));
+            llenarTablaProgreso();
+            bd.cerrarConexion();
+        }
+    }//GEN-LAST:event_btnGuardarDiaActionPerformed
+
     
     
     
@@ -890,6 +1086,9 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarProgresoSnacks;
     private javax.swing.JToggleButton btnBuscarComida;
     private javax.swing.JButton btnEliminarComida;
+    private javax.swing.JButton btnGuardarDia;
+    private javax.swing.JButton btnSumarDes;
+    private javax.swing.JComboBox<String> comboDias;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -903,8 +1102,19 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JLabel lblCalTotalCen;
+    private javax.swing.JLabel lblCalTotalCom;
+    private javax.swing.JLabel lblCalTotalDes;
+    private javax.swing.JLabel lblCalTotalDiario;
+    private javax.swing.JLabel lblCalTotalNumCen;
+    private javax.swing.JLabel lblCalTotalNumCom;
+    private javax.swing.JLabel lblCalTotalNumDes;
+    private javax.swing.JLabel lblCalTotalNumDiario;
+    private javax.swing.JLabel lblCalTotalNumSnacks;
+    private javax.swing.JLabel lblCalTotalSnacks;
     private javax.swing.JLabel lblCena;
     private javax.swing.JLabel lblComida;
     private javax.swing.JLabel lblDesayuno;
@@ -915,6 +1125,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable tableCom;
     private javax.swing.JTable tableComida;
     private javax.swing.JTable tableDes;
+    private javax.swing.JTable tableProgreso;
     private javax.swing.JTable tableSnacks;
     private javax.swing.JTextField txtBuscarComida;
     // End of variables declaration//GEN-END:variables

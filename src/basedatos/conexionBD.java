@@ -24,7 +24,9 @@ public class conexionBD {
     PreparedStatement buscarComida;
     PreparedStatement agregarComida;
     PreparedStatement borrarComida;
-    
+    PreparedStatement agregarProgresoDiario;
+    PreparedStatement ActualizarProgresoDiario;
+    PreparedStatement mostrarProgreso;
     
     
     
@@ -51,7 +53,9 @@ public class conexionBD {
         buscarComida = conexion.prepareStatement("SELECT * FROM comida WHERE nombre =?");
         agregarComida = conexion.prepareStatement("INSERT INTO comida values (?,?,?,?,?,?,?)");
         borrarComida = conexion.prepareStatement("DELETE FROM comida WHERE nombre =?");
-        
+        agregarProgresoDiario = conexion.prepareStatement("INSERT INTO Progreso values (?,?)");
+        ActualizarProgresoDiario = conexion.prepareStatement("UPDATE Progreso SET TotalCalorias=? WHERE Dia=?");
+        mostrarProgreso = conexion.prepareCall("SELECT * FROM Progreso");
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
         }
@@ -279,6 +283,42 @@ public class conexionBD {
         }
         
        
-    }    
+    }  
+        
+        public boolean agregarProgresoDiario(String dia, double calorias) {
+            try {
+            
+                agregarProgresoDiario.setString(1, dia);
+                agregarProgresoDiario.setDouble(2, calorias);
+                
+                agregarProgresoDiario.executeUpdate();
+                
+                return true;
+                
+            }catch( SQLException ex  ){
+                
+                System.out.println("Error al insertar comida");
+                System.out.println(ex.getMessage() );
+            
+            }
+
+            return false;  
+        }
+        
+        public ResultSet mostrarProgreso() {
+            ResultSet rs;
+        
+            try {
+            
+                rs = mostrarProgreso.executeQuery();
+            
+            } catch (SQLException ex) {
+                System.out.println("Error al obtener el progreso");
+                System.out.println(ex.getMessage() );
+                return null;
+            }
+        
+            return rs;
+        }
     
 }
