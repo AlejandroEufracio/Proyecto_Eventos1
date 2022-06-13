@@ -22,6 +22,10 @@ import javax.swing.JOptionPane;
 public class VtnMenuPrincipal extends javax.swing.JFrame {
     
     DefaultTableModel m;
+    DefaultTableModel m1;
+    DefaultTableModel m2;
+    DefaultTableModel m3;
+    DefaultTableModel m4;
     conexionBD bd = null;
     VtnIniciarUsuario vtnIniciarUsuario = null;
     VtnAgregarComida objAgregarComida = null;
@@ -314,6 +318,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         btnActualizar = new javax.swing.JButton();
         lblSergioOliva = new javax.swing.JLabel();
         btnMostrar = new javax.swing.JButton();
+        btnEliminarProgreso = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtBuscarComida = new javax.swing.JTextField();
         btnBuscarComida = new javax.swing.JToggleButton();
@@ -354,6 +359,10 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         lblCalTotalNumDiario = new javax.swing.JLabel();
         comboDias = new javax.swing.JComboBox<>();
         btnGuardarDia = new javax.swing.JButton();
+        btnEliminarDes = new javax.swing.JButton();
+        btnEliminarCom = new javax.swing.JButton();
+        btnEliminarCen = new javax.swing.JButton();
+        btnEliminarSnack = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -362,7 +371,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        tabPrincipal.setBackground(new java.awt.Color(51, 0, 102));
+        tabPrincipal.setBackground(new java.awt.Color(153, 0, 204));
         tabPrincipal.setName(""); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(51, 0, 102));
@@ -410,6 +419,15 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarProgreso.setBackground(new java.awt.Color(255, 51, 0));
+        btnEliminarProgreso.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarProgreso.setText("Eliminar");
+        btnEliminarProgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProgresoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -436,9 +454,12 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                         .addGap(165, 165, 165)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
-                                .addComponent(txtBienvenidos)))))
+                            .addComponent(txtBienvenidos, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnEliminarProgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 709, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -459,9 +480,11 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                             .addComponent(btnMostrar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSergioOliva, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEliminarProgreso)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         tabPrincipal.addTab("Home", jPanel3);
@@ -561,29 +584,26 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(205, 205, 205)
                         .addComponent(txtBuscarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(btnBuscarComida)
                         .addGap(107, 107, 107)
-                        .addComponent(btnEliminarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEliminarComida, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAgregarComida)
+                        .addGap(0, 122, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnAgregarComida)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAgregarProgresoDes, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnAgregarProgresoCen)
-                            .addComponent(btnAgregarProgresoCom)
-                            .addComponent(btnAgregarProgresoSnacks))))
+                            .addComponent(btnAgregarProgresoCom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarProgresoCen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarProgresoSnacks, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -603,11 +623,6 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                             .addComponent(btnBuscarComida, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(btnAgregarProgresoDes)
                         .addGap(32, 32, 32)
@@ -615,13 +630,19 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnAgregarProgresoCen)
                         .addGap(27, 27, 27)
-                        .addComponent(btnAgregarProgresoSnacks)))
-                .addContainerGap(165, Short.MAX_VALUE))
+                        .addComponent(btnAgregarProgresoSnacks))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         tabPrincipal.addTab("Comidas", jPanel4);
 
         jPanel7.setBackground(new java.awt.Color(51, 0, 102));
+        jPanel7.setForeground(new java.awt.Color(255, 255, 255));
 
         tableDes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -758,6 +779,40 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarDes.setBackground(new java.awt.Color(255, 51, 0));
+        btnEliminarDes.setText("Eliminar");
+        btnEliminarDes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDesActionPerformed(evt);
+            }
+        });
+
+        btnEliminarCom.setBackground(new java.awt.Color(255, 51, 0));
+        btnEliminarCom.setText("Eliminar");
+        btnEliminarCom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarComActionPerformed(evt);
+            }
+        });
+
+        btnEliminarCen.setBackground(new java.awt.Color(255, 51, 0));
+        btnEliminarCen.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarCen.setText("Eliminar");
+        btnEliminarCen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarCenActionPerformed(evt);
+            }
+        });
+
+        btnEliminarSnack.setBackground(new java.awt.Color(255, 51, 0));
+        btnEliminarSnack.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarSnack.setText("Eliminar");
+        btnEliminarSnack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSnackActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -772,15 +827,21 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(lblDesayuno, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                         .addGap(26, 26, 26)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarDes, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblSnacks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblCena, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(btnEliminarCom, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnEliminarCen, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarSnack, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
@@ -839,22 +900,27 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCalTotalDes, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCalTotalNumDes, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblCalTotalNumDes, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarDes))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblCalTotalCom, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblCalTotalCom, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnEliminarCom))
                                     .addComponent(lblCalTotalNumCom, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
+                                .addGap(5, 5, 5)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblCena)))
                             .addComponent(lblComida))
-                        .addGap(7, 7, 7)
-                        .addComponent(lblCalTotalCen, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCalTotalCen, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarCen)))
                     .addComponent(lblCalTotalNumCen, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -863,8 +929,9 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblCalTotalSnacks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblCalTotalNumSnacks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(112, Short.MAX_VALUE))
+                    .addComponent(lblCalTotalNumSnacks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarSnack))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         tabPrincipal.addTab("Progreso", jPanel7);
@@ -917,7 +984,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             } else {
 
                 
-                m = (DefaultTableModel) tableComida.getModel();
+                m1 = (DefaultTableModel) tableComida.getModel();
                 nombre = tableComida.getValueAt(fsel, 0).toString();
                 categoria = tableComida.getValueAt(fsel, 1).toString();
                 calorias = tableComida.getValueAt(fsel, 2).toString();
@@ -926,9 +993,10 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 grasas = tableComida.getValueAt(fsel, 5).toString();
                 azucares = tableComida.getValueAt(fsel, 6).toString();
                 
-                m = (DefaultTableModel) tableDes.getModel();
+                m1 = (DefaultTableModel) tableDes.getModel();
                 String filaselemento[] = {nombre, categoria, calorias, proteina, carbohidratos, grasas, azucares};
-                m.addRow(filaselemento);
+                m1.addRow(filaselemento);
+                JOptionPane.showMessageDialog(null, "Comida agregada a desayuno");
             }
         } catch (Exception e) {
             
@@ -992,7 +1060,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             if(fsel == -1) {
                 JOptionPane.showMessageDialog(null, "Selleciona una comida");
             } else {
-                m = (DefaultTableModel) tableComida.getModel();
+                m2 = (DefaultTableModel) tableComida.getModel();
                 nombre = tableComida.getValueAt(fsel, 0).toString();
                 categoria = tableComida.getValueAt(fsel, 1).toString();
                 calorias = tableComida.getValueAt(fsel, 2).toString();
@@ -1001,9 +1069,10 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 grasas = tableComida.getValueAt(fsel, 5).toString();
                 azucares = tableComida.getValueAt(fsel, 6).toString();
                 
-                m = (DefaultTableModel) tableCom.getModel();
+                m2 = (DefaultTableModel) tableCom.getModel();
                 String filaselemento[] = {nombre, categoria, calorias, proteina, carbohidratos, grasas, azucares};
-                m.addRow(filaselemento);
+                m2.addRow(filaselemento);
+                JOptionPane.showMessageDialog(null, "Comida agregada a comida");
             }
         } catch (Exception e) {
             
@@ -1020,7 +1089,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             if(fsel == -1) {
                 JOptionPane.showMessageDialog(null, "Selleciona una comida");
             } else {
-                m = (DefaultTableModel) tableComida.getModel();
+                m3 = (DefaultTableModel) tableComida.getModel();
                 nombre = tableComida.getValueAt(fsel, 0).toString();
                 categoria = tableComida.getValueAt(fsel, 1).toString();
                 calorias = tableComida.getValueAt(fsel, 2).toString();
@@ -1029,9 +1098,10 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 grasas = tableComida.getValueAt(fsel, 5).toString();
                 azucares = tableComida.getValueAt(fsel, 6).toString();
                 
-                m = (DefaultTableModel) tableCen.getModel();
+                m3 = (DefaultTableModel) tableCen.getModel();
                 String filaselemento[] = {nombre, categoria, calorias, proteina, carbohidratos, grasas, azucares};
-                m.addRow(filaselemento);
+                m3.addRow(filaselemento);
+                JOptionPane.showMessageDialog(null, "Comida agregada a cena");
             }
         } catch (Exception e) {
             
@@ -1046,9 +1116,9 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             int cant = 0;
             
             if(fsel == -1) {
-                JOptionPane.showMessageDialog(null, "Selleciona una comida");
+                JOptionPane.showMessageDialog(null, "Seleciona una comida");
             } else {
-                m = (DefaultTableModel) tableComida.getModel();
+                m4 = (DefaultTableModel) tableComida.getModel();
                 nombre = tableComida.getValueAt(fsel, 0).toString();
                 categoria = tableComida.getValueAt(fsel, 1).toString();
                 calorias = tableComida.getValueAt(fsel, 2).toString();
@@ -1057,9 +1127,10 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
                 grasas = tableComida.getValueAt(fsel, 5).toString();
                 azucares = tableComida.getValueAt(fsel, 6).toString();
                 
-                m = (DefaultTableModel) tableSnacks.getModel();
+                m4 = (DefaultTableModel) tableSnacks.getModel();
                 String filaselemento[] = {nombre, categoria, calorias, proteina, carbohidratos, grasas, azucares};
-                m.addRow(filaselemento);
+                m4.addRow(filaselemento);
+                JOptionPane.showMessageDialog(null, "Comida agregada a snack");
             }
         } catch (Exception e) {
             
@@ -1126,6 +1197,7 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
             limpiarTabla();
             llenarTablaProgreso();
             bd.cerrarConexion();
+            JOptionPane.showMessageDialog(null, "Progreso guardado");
             
         }
     }//GEN-LAST:event_btnGuardarDiaActionPerformed
@@ -1143,6 +1215,71 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         mostrarDatos();
     }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void btnEliminarDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDesActionPerformed
+        // TODO add your handling code here:
+        int seleccionar = tableDes.getSelectedRow();
+
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            JOptionPane.showMessageDialog(this, "Comida eliminada");
+            m1.removeRow(seleccionar);
+        }
+    }//GEN-LAST:event_btnEliminarDesActionPerformed
+
+    private void btnEliminarComActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarComActionPerformed
+        // TODO add your handling code here:
+        int seleccionar = tableCom.getSelectedRow();
+
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            JOptionPane.showMessageDialog(this, "Comida eliminada");
+            m2.removeRow(seleccionar);
+        }
+    }//GEN-LAST:event_btnEliminarComActionPerformed
+
+    private void btnEliminarCenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarCenActionPerformed
+        // TODO add your handling code here:
+        int seleccionar = tableCen.getSelectedRow();
+
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            JOptionPane.showMessageDialog(this, "Comida eliminada");
+            m3.removeRow(seleccionar);
+        }
+    }//GEN-LAST:event_btnEliminarCenActionPerformed
+
+    private void btnEliminarSnackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSnackActionPerformed
+        // TODO add your handling code here:
+        int seleccionar = tableSnacks.getSelectedRow();
+
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            JOptionPane.showMessageDialog(this, "Comida eliminada");
+            m4.removeRow(seleccionar);
+        }
+    }//GEN-LAST:event_btnEliminarSnackActionPerformed
+
+    private void btnEliminarProgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProgresoActionPerformed
+        // TODO add your handling code here:
+        int seleccionar = tableProgreso.getSelectedRow();
+
+        if(seleccionar<0){
+            JOptionPane.showMessageDialog(this, "Error, ningun elemento seleccionado para eliminar");
+        }else{
+            bd.abrirConexion();
+            bd.borrarProgreso((String)tableProgreso.getValueAt(seleccionar, 0), Double.parseDouble((String)tableProgreso.getValueAt(seleccionar, 1)));
+            bd.cerrarConexion();
+            limpiarTabla();
+            llenarTablaProgreso();
+            JOptionPane.showMessageDialog(this, "Se ha elimidado el progreso seleccionado");
+            
+        }
+    }//GEN-LAST:event_btnEliminarProgresoActionPerformed
 
     private void saludar(){
         txtBienvenidos.setText("Bienvenido " + objUsuario.getUser() + "!");
@@ -1200,7 +1337,12 @@ public class VtnMenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarProgresoDes;
     private javax.swing.JButton btnAgregarProgresoSnacks;
     private javax.swing.JToggleButton btnBuscarComida;
+    private javax.swing.JButton btnEliminarCen;
+    private javax.swing.JButton btnEliminarCom;
     private javax.swing.JButton btnEliminarComida;
+    private javax.swing.JButton btnEliminarDes;
+    private javax.swing.JButton btnEliminarProgreso;
+    private javax.swing.JButton btnEliminarSnack;
     private javax.swing.JButton btnGuardarDia;
     private javax.swing.JButton btnMostrar;
     private javax.swing.JButton btnSumarDes;

@@ -29,6 +29,7 @@ public class conexionBD {
     PreparedStatement mostrarProgreso;
     PreparedStatement actualizarUsuario;
     PreparedStatement verUsuario;
+    PreparedStatement borrarProgreso;
     
     
     
@@ -44,12 +45,12 @@ public class conexionBD {
         try{  // conexion par a la base de datos 
             
         conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1/crudpoe", "root","");
-        insertarUser = conexion.prepareStatement("INSERT INTO usuario values (?,?,?)");
-        insertarAsesor = conexion.prepareStatement("INSERT INTO Asesor values (?,?,?)");
+        insertarUser = conexion.prepareStatement("INSERT INTO usuario values (?,?,?,?,?,?,?,?,?)");
+        
         autentificarUsuario = conexion.prepareStatement("SELECT * FROM usuario WHERE user =? AND password =?");
         autentificarAsesor = conexion.prepareStatement("SELECT * FROM asesor WHERE user =? AND password =?");
         contarUsuarios = conexion.prepareStatement("SELECT COUNT(*) FROM usuario WHERE user =?");
-        contarAsesores = conexion.prepareStatement("SELECT COUNT(*) FROM asesor WHERE user =?");
+        
         mostrarTodaComida = conexion.prepareStatement("SELECT * FROM comida");
         mostrarCategoriaComida = conexion.prepareStatement("SELECT * FROM comida WHERE categoria =?");
         buscarComida = conexion.prepareStatement("SELECT * FROM comida WHERE nombre =?");
@@ -61,6 +62,7 @@ public class conexionBD {
         actualizarUsuario = conexion.prepareStatement("UPDATE usuario SET Edad=?, Peso=?, Estatura=?, CalRec=?, ProteinaRec=?, "
                 + " CarboRec=? WHERE user=?  ");
         verUsuario = conexion.prepareStatement("Select * FROM usuario WHERE user=?");
+        borrarProgreso = conexion.prepareStatement("DELETE FROM progreso WHERE Dia =? AND TotalCalorias =?");
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
         }
@@ -129,6 +131,12 @@ public class conexionBD {
                 insertarUser.setString(1, objUs.getUser());
                 insertarUser.setString(2, objUs.getEmail());
                 insertarUser.setString(3, objUs.getPassword());
+                insertarUser.setInt(4, 0);
+                insertarUser.setDouble(5, 0);
+                insertarUser.setDouble(6, 0);
+                insertarUser.setDouble(7, 0);
+                insertarUser.setDouble(8, 0);
+                insertarUser.setDouble(9, 0);
                 insertarUser.executeUpdate();
 
             }}catch( SQLException ex  ){
@@ -346,4 +354,20 @@ public class conexionBD {
         
         return objUsuario;
     }    
+        
+        
+    public void borrarProgreso(String dia, Double totalCal){
+        ResultSet rs;
+        
+        try {
+            
+            borrarProgreso.setString(1, dia);
+            borrarProgreso.setDouble(2, totalCal);
+            borrarProgreso.execute();
+            
+        } catch (SQLException ex) {
+            System.out.println("Error al borrar el progreso ");
+            System.out.println(ex.getMessage());
+            
+        }}    
 }
