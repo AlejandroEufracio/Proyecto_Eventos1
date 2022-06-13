@@ -2,20 +2,20 @@
 package visual;
 
 import logica.Usuario;
-import logica.Asesor;
+
 import basedatos.conexionBD;
 import javax.swing.JOptionPane;
 
 public class VtnCrearCuenta extends javax.swing.JFrame {
 
     conexionBD objBD = null;
-    Asesor objAsesor = null;
+   
     Usuario objUs = null;
     VtnIniciarUsuario objIniciarSesion = null;
-    VtnIniciarAsesor vtnIniciarAsesor =  null;
+    
     
     public VtnCrearCuenta() {
-        objAsesor = new Asesor();
+        
         objUs = new Usuario();
         objBD = new conexionBD();
         initComponents();
@@ -23,7 +23,7 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
     
     public VtnCrearCuenta(VtnIniciarUsuario objIniciarSesion){
         this.objIniciarSesion = objIniciarSesion;
-        objAsesor = new Asesor();
+        
         objUs = new Usuario();
         objBD = new conexionBD();
         initComponents();
@@ -63,7 +63,6 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         txtConfirmar = new javax.swing.JPasswordField();
         jpTipoCuenta = new javax.swing.JPanel();
-        btnCAsesor = new javax.swing.JRadioButton();
         btnCUser = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -159,10 +158,6 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
         jpTipoCuenta.setBackground(new java.awt.Color(51, 0, 102));
         jpTipoCuenta.setForeground(new java.awt.Color(153, 153, 255));
 
-        btnCAsesor.setBackground(new java.awt.Color(51, 0, 102));
-        btngTipoCuenta.add(btnCAsesor);
-        btnCAsesor.setText("Cuenta Asesor");
-
         btnCUser.setBackground(new java.awt.Color(51, 0, 102));
         btngTipoCuenta.add(btnCUser);
         btnCUser.setText("Cuenta usuario");
@@ -174,17 +169,13 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
             .addGroup(jpTipoCuentaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnCUser, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCAsesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         jpTipoCuentaLayout.setVerticalGroup(
             jpTipoCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpTipoCuentaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpTipoCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCAsesor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnCUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -296,26 +287,7 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
                     }   
                }   
                 
-               if(btnCAsesor.isSelected()){
-                   
-                    boolean asCreado;
-                    objAsesor.setUser(txtfUser.getText());
-                    objAsesor.setEmail(txtfEmail.getText());
-                    char[] password = txtConfirmar.getPassword();
-                    String pswr = new String(password);
-                    objAsesor.setPassword(pswr);
-                    
-                    objBD.abrirConexion();
-                    asCreado = objBD.insertarAsesor(objAsesor);
-                    objBD.cerrarConexion();
-                    
-                    if(asCreado){
-                    JOptionPane.showMessageDialog(this, "Cuenta creada");
-                    }else {
-                        JOptionPane.showMessageDialog(this, "Error, este nombre de usuario ya esta registrado");
-                        System.out.println("objUs esta nulo");
-                    }   
-               }   
+   
         }
     
 
@@ -369,7 +341,6 @@ public class VtnCrearCuenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton btnCAsesor;
     private javax.swing.JRadioButton btnCUser;
     private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JButton btnIniciarSesion;

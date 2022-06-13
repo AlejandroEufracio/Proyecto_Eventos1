@@ -68,7 +68,21 @@ public class Usuario extends Cuenta{
         this.carbohidratosDiarios = carbohidratosDiarios;
     }
     
- 
+    @Override
+    public String mostrarDatos(){
+        
+        String dato = super.mostrarDatos();
+        
+        dato += "Edad: " + getEdad()+ "\n" + 
+                "Peso: " + getPeso()+ "\n" +
+                "Estatura: " + getEstatura()+ "\n" + 
+                "Calorias recomenadas: " + getCaloriasDiarias()+ "\n" +
+                "Proteinas recomendadas: " + getProteinaDiaria()+ "\n" +
+                "Carbohidratos recomendadas: " + getCarbohidratosDiarios()+ "\n";
+        
+        return dato;
+                
+    }
     
     
     

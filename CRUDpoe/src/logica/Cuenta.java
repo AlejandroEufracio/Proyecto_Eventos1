@@ -39,8 +39,7 @@ public class Cuenta {
     public String mostrarDatos() {
         String datos = "";
         datos += "Nombre : " + getUser() + "\n" +
-                 "Email : " + getEmail() + "\n" +
-                 "Password : " + getPassword() + "\n";
+                 "Email : " + getEmail() + "\n" ;
         
         return datos;
     }

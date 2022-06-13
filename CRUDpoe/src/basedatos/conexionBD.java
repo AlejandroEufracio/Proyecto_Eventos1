@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import logica.Usuario;
-import logica.Asesor;
+
 import logica.Comida;
 
 public class conexionBD {
@@ -24,7 +24,11 @@ public class conexionBD {
     PreparedStatement buscarComida;
     PreparedStatement agregarComida;
     PreparedStatement borrarComida;
-    
+    PreparedStatement agregarProgresoDiario;
+    PreparedStatement ActualizarProgresoDiario;
+    PreparedStatement mostrarProgreso;
+    PreparedStatement actualizarUsuario;
+    PreparedStatement verUsuario;
     
     
     
@@ -51,7 +55,12 @@ public class conexionBD {
         buscarComida = conexion.prepareStatement("SELECT * FROM comida WHERE nombre =?");
         agregarComida = conexion.prepareStatement("INSERT INTO comida values (?,?,?,?,?,?,?)");
         borrarComida = conexion.prepareStatement("DELETE FROM comida WHERE nombre =?");
-        
+        agregarProgresoDiario = conexion.prepareStatement("INSERT INTO Progreso values (?,?,?)");
+        ActualizarProgresoDiario = conexion.prepareStatement("UPDATE Progreso SET TotalCalorias=? WHERE Dia=?");
+        mostrarProgreso = conexion.prepareCall("SELECT * FROM Progreso WHERE user=?");
+        actualizarUsuario = conexion.prepareStatement("UPDATE usuario SET Edad=?, Peso=?, Estatura=?, CalRec=?, ProteinaRec=?, "
+                + " CarboRec=? WHERE user=?  ");
+        verUsuario = conexion.prepareStatement("Select * FROM usuario WHERE user=?");
         }catch(SQLException ex ){
             System.out.println("Error al abrir bd ");
         }
@@ -61,7 +70,7 @@ public class conexionBD {
         try{
             conexion.close();
         }catch(SQLException ex){
-            System.out.println("error al cerrar conexion ");
+            System.out.println("Error al cerrar conexion ");
         }
     }
     
@@ -82,8 +91,13 @@ public class conexionBD {
                 System.out.println("Entro");
                 objUsuario = new Usuario();
                 objUsuario.setUser(rs.getString("user"));
-                //objUsuario.setEdad(rs.getInt("edad"));
                 objUsuario.setEmail(rs.getString("email"));
+                objUsuario.setEdad(rs.getInt("Edad"));
+                objUsuario.setPeso(rs.getDouble("Peso"));
+                objUsuario.setEstatura(rs.getDouble("Estatura"));
+                objUsuario.setCaloriasDiarias(rs.getDouble("CalRec"));
+                objUsuario.setProteinaDiaria(rs.getDouble("ProteinaRec"));
+                objUsuario.setCarbohidratosDiarios(rs.getDouble("CarboRec"));
                 
             }           
         } catch (SQLException ex) {
@@ -95,35 +109,7 @@ public class conexionBD {
         return objUsuario;
     }
     
-     public Asesor autentificarAsesor(String usuario, String contraseña){
-        
-                
-        ResultSet rs =  null;
-        Asesor objAsesor = null;
-         
-        try {
-            
-            autentificarAsesor.setString(1,usuario);
-            autentificarAsesor.setString(2,contraseña);
-            rs = autentificarAsesor.executeQuery();
-            
-            
-            if(rs.next() ) {
-                System.out.println("Entro");
-                objAsesor = new Asesor();
-                objAsesor.setUser(rs.getString("user"));
-                //objUsuario.setEdad(rs.getInt("edad"));
-                objAsesor.setEmail(rs.getString("email"));
-                
-            }           
-        } catch (SQLException ex) {
-           System.out.println("Error al autentificar en la BD");
-           System.out.println(ex.getMessage());
-            
-        }
-        
-        return objAsesor;
-    }
+     
     
     public boolean insertarUser(Usuario objUs){
         
@@ -154,35 +140,8 @@ public class conexionBD {
         
     }
     
-    public boolean insertarAsesor(Asesor objAsesor){
-        
-        ResultSet rs;
-        
-        
-        try{
-            contarAsesores.setString(1, objAsesor.getUser());
-            rs = contarAsesores.executeQuery();
-            
-            if(rs.next()){
-            
-            if(rs.getInt(1)>0){
-                System.out.println("El asesor ya esta registrado");
-                return false; 
-            }
-            
-            insertarAsesor.setString(1, objAsesor.getUser());
-            insertarAsesor.setString(2, objAsesor.getEmail());
-            insertarAsesor.setString(3, objAsesor.getPassword());
-            insertarAsesor.executeUpdate();
-            
-            }}catch( SQLException ex  ){
-            System.out.println("Error al insertar usuario");
-            System.out.println(ex.getMessage() );
-        }
-        
-        return true;
-        
-    }
+    
+    
     
     public ResultSet mostrarTodasComidas(){
         ResultSet rs;
@@ -279,6 +238,112 @@ public class conexionBD {
         }
         
        
-    }    
+    }  
+        
+        public boolean agregarProgresoDiario(String dia, double calorias, String user) {
+            try {
+                agregarProgresoDiario.setString(1, user);
+                agregarProgresoDiario.setString(2, dia);
+                agregarProgresoDiario.setDouble(3, calorias);
+                
+                agregarProgresoDiario.executeUpdate();
+                
+                return true;
+                
+            }catch( SQLException ex  ){
+                
+                System.out.println("Error al insertar comida");
+                System.out.println(ex.getMessage() );
+            
+            }
+
+            return false;  
+        }
+        
+        public ResultSet mostrarProgreso(String user) {
+            ResultSet rs;
+        
+            try {
+                mostrarProgreso.setString(1, user);
+                rs = mostrarProgreso.executeQuery();
+            
+            } catch (SQLException ex) {
+                System.out.println("Error al obtener el progreso");
+                System.out.println(ex.getMessage() );
+                return null;
+            }
+        
+            return rs;
+        }
     
+        
+        
+        public boolean actualizarUsuario(Usuario objUsuario){
+            
+            ResultSet rs;
+
+        
+        try{
+            
+            actualizarUsuario.setInt(1, objUsuario.getEdad());
+            actualizarUsuario.setDouble(2, objUsuario.getPeso());
+            actualizarUsuario.setDouble(3, objUsuario.getEstatura());
+            actualizarUsuario.setDouble(4, objUsuario.getCaloriasDiarias());
+            actualizarUsuario.setDouble(5, objUsuario.getProteinaDiaria());
+            actualizarUsuario.setDouble(6, objUsuario.getCarbohidratosDiarios());
+            actualizarUsuario.setString(7, objUsuario.getUser());
+            
+            
+            
+            actualizarUsuario.executeUpdate();
+            
+            return true;
+            
+        }catch( SQLException ex  ){
+                
+            System.out.println("Error al actualizar usuario");
+            System.out.println(ex.getMessage() );
+            
+            }
+            
+        
+        return false;  
+        
+        }   
+        
+        
+        public Usuario verUsuario(String usuario){
+        
+                
+        ResultSet rs =  null;
+        Usuario objUsuario = null;
+         
+        try {
+            
+            verUsuario.setString(1,usuario);
+           
+            rs = verUsuario.executeQuery();
+            
+            
+            if(rs.next() ) {
+                System.out.println("Entro");
+                objUsuario = new Usuario();
+                objUsuario.setUser(rs.getString("user"));
+                objUsuario.setEmail(rs.getString("email"));
+                objUsuario.setEdad(rs.getInt("Edad"));
+                objUsuario.setPeso(rs.getDouble("Peso"));
+                objUsuario.setEstatura(rs.getDouble("Estatura"));
+                objUsuario.setCaloriasDiarias(rs.getDouble("CalRec"));
+                objUsuario.setProteinaDiaria(rs.getDouble("ProteinaRec"));
+                objUsuario.setCarbohidratosDiarios(rs.getDouble("CarboRec"));
+                
+            }           
+        } catch (SQLException ex) {
+           System.out.println("Error al autentificar en la BD");
+           System.out.println(ex.getMessage());
+            
+        }
+        
+        return objUsuario;
+    }    
 }
